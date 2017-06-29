@@ -38,9 +38,18 @@ var addPost = (postInfo) => {
 
 var getShowPost = (username) => {
   // get id of all post will show
-  listPromises = [];
-  return db.zrange(`show_post:${username}`, 0, -1)
-    .then(listIds => {
+    let promiseShowPost = db.zrange(`show_post:${username}`, 0, -1);
+    return getListPostsFromListId(promiseShowPost);
+}
+
+var getAllPost = () => {
+  let promiseShowAll = db.zrange('all_post', 0, -1);
+  return getListPostsFromListId(promiseShowAll);
+}
+
+var getListPostsFromListId = (promise) => {
+  let listPromises = [];
+    return promise.then(listIds => {
       for(let i = 0; i < listIds.length; ++i) {
         let promise = db.hvals(`post_content:${listIds[i]}`).then(values => {
           postContent = {
@@ -60,5 +69,6 @@ var getShowPost = (username) => {
 
 module.exports = {
   addPost,
-  getShowPost
+  getShowPost,
+  getAllPost
 }

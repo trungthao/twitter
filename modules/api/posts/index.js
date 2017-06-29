@@ -54,4 +54,21 @@ router.get('/home', authen, (req, res) => {
     })
 })
 
+router.get('/timeline', authen, (req, res) => {
+  postsController.getAllPost()
+    .then(values => {
+      res.status(200).json({
+        success: true,
+        contents: values
+      });
+    })
+    .catch(reason => {
+      console.log('getShowPost: ' + reason);
+      res.status(500).json({
+        success: false,
+        message: 'get show post error'
+      });
+    })
+})
+
 module.exports = router;
