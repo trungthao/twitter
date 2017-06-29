@@ -1,4 +1,5 @@
-const db = require('then-redis').createClient();
+const db = require('then-redis').createClient(),
+  time = require('../../utilities/time');
 
 var addPost = (postInfo) => {
   // increment id of the post
@@ -38,23 +39,24 @@ var addPost = (postInfo) => {
 
 var getShowPost = (username) => {
   // get id of all post will show
-    let promiseShowPost = db.zrange(`show_post:${username}`, 0, -1);
+    let promiseShowPost = db.zrange(`show_post:${username}`, 0, -1, 'withscores');
     return getListPostsFromListId(promiseShowPost);
 }
 
 var getAllPost = () => {
-  let promiseShowAll = db.zrange('all_post', 0, -1);
+  let promiseShowAll = db.zrange('all_post', 0, -1, 'withscores');
   return getListPostsFromListId(promiseShowAll);
 }
 
 var getListPostsFromListId = (promise) => {
   let listPromises = [];
-    return promise.then(listIds => {
-      for(let i = 0; i < listIds.length; ++i) {
-        let promise = db.hvals(`post_content:${listIds[i]}`).then(values => {
+    return promise.then(listPosts => {
+      for(let i = 0; i < listPosts.length; i += 2) {
+        let promise = db.hvals(`post_content:${listPosts[i]}`).then(values => {
           postContent = {
             username: values[0],
-            content: values[1]
+            content: values[1],
+            timePost: time.convertTime(listPosts[i+1])
           }
           return Promise.resolve(postContent);
         });

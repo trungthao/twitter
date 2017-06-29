@@ -40,6 +40,19 @@ var signIn = (userInfo) => {
     });
 }
 
+var getAllUser = () => {
+  return db.keys('user:*')
+    .then(users => {
+      results = users.map(element => {
+        return element.substring(5);
+      });
+      return Promise.resolve(results);
+    })
+    .catch(reason => {
+      return Promise.reject('keys: ' + reason);
+    });
+}
+
 var authenMiddleware = (req, res, next) => {
   var myToken = req.session.token;
   getUserByToken(myToken)
@@ -49,7 +62,10 @@ var authenMiddleware = (req, res, next) => {
     })
     .catch((err) => {
       console.log('getUserByToken: ' + err);
-      res.send('not authenticate');
+      res.status(407).json({
+        success: false,
+        message: 'not authenticate'
+      });
     });
 }
 
@@ -89,5 +105,6 @@ var isUserExists = (username) => {
 module.exports = {
   addUser,
   signIn,
-  authenMiddleware
+  authenMiddleware,
+  getAllUser
 }

@@ -28,4 +28,23 @@ router.post('/', authen, (req, res) => {
     })
 });
 
+router.get('/', authen, (req, res) => {
+  followController.getNumFollow(req.username)
+    .then(values => {
+      console.log(values);
+      res.status(200).json({
+        success: true,
+        following: values[0],
+        follower: values[1]
+      });
+    })
+    .catch(reason => {
+      console.log(reason);
+      res.status(500).json({
+        success: false,
+        message: 'get follow error'
+      })
+    })
+})
+
 module.exports = router;

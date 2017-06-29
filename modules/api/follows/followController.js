@@ -17,6 +17,20 @@ var addFollow = (followInfo) => {
   return Promise.all(iterator);
 }
 
+var getNumFollow = (username) => {
+  let listPromise = [getNumFollowing(username), getNumFollower(username)];
+  return Promise.all(listPromise);
+}
+
+var getNumFollowing = (username) => {
+  return db.scard(`following:${username}`);
+}
+
+var getNumFollower = (username) => {
+  return db.scard(`follower:${username}`);
+}
+
 module.exports = {
-  addFollow
+  addFollow,
+  getNumFollow
 }

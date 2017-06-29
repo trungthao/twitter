@@ -11,8 +11,6 @@ router.post('/signup', (req, res) => {
 
   usersController.addUser(userInfo)
     .then((reply) => {
-      console.log(reply);
-
       let myToken = token.signToken(userInfo);
       req.session.token = myToken;
       res.status(200).json({
@@ -57,6 +55,12 @@ router.post('/signin', (req, res) => {
         message: 'signin error'
       });
     })
-})
+});
+
+router.get('/', usersController.authenMiddleware, (req, res) => {
+  usersController.getAllUser().then(values => {
+    res.json(values);
+  })
+});
 
 module.exports = router;
