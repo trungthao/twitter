@@ -7,7 +7,7 @@ const app = express(),
       postRouter = require('./modules/api/posts');
       followRouter = require('./modules/api/follows')
 
-var ip = process.env.IP || "0.0.0.0";
+var ip = process.env.IP || "192.168.2.94";
 var port = process.env.PORT || 8888;
 
 app.use(bodyParser.json());
