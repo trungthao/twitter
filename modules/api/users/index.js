@@ -57,6 +57,23 @@ router.post('/signin', (req, res) => {
     });
 });
 
+router.get('/signout', usersController.authenMiddleware, (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.log('signout: ' + err);
+      res.status(500).json({
+        success: false,
+        message: 'logout error'
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: 'login success'
+      });
+    }
+  });
+});
+
 router.get('/', usersController.authenMiddleware, (req, res) => {
   usersController.getAllUser().then(values => {
     res.json(values);

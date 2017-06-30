@@ -54,19 +54,26 @@ var getAllUser = () => {
 }
 
 var authenMiddleware = (req, res, next) => {
-  var myToken = req.session.token;
-  getUserByToken(myToken)
-    .then((userInfo) => {
-      req.username = userInfo.username;
-      next();
-    })
-    .catch((err) => {
-      console.log('getUserByToken: ' + err);
-      res.status(407).json({
-        success: false,
-        message: 'not authenticate'
-      });
+  if (req.session.token) {
+      var myToken = req.session.token;
+      getUserByToken(myToken)
+        .then((userInfo) => {
+          req.username = userInfo.username;
+          next();
+        })
+        .catch((err) => {
+          console.log('getUserByToken: ' + err);
+          res.status(401).json({
+            success: false,
+            message: 'not authenticate'
+          });
+        });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'not authenticate'
     });
+  }
 }
 
 var getUserByToken = (myToken) => {
