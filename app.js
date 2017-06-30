@@ -13,6 +13,12 @@ app.use(session({ secret : 'thudo-multimedia', resave : false, saveUninitialized
 app.use('/api/users', userRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/follows', followRouter);
+app.all('/*', (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: 'Not Found'
+  })
+})
 
 app.listen('8888', (req, res) => {
   console.log('app listen on port 8888');

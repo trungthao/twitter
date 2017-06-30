@@ -13,7 +13,6 @@ router.post('/', authen, (req, res) => {
 
   followController.addFollow(followInfo)
     .then(replys => {
-      console.log(replys);
       res.status(200).json({
         success: true,
         message: 'follow success'
@@ -31,7 +30,6 @@ router.post('/', authen, (req, res) => {
 router.get('/', authen, (req, res) => {
   followController.getNumFollow(req.username)
     .then(values => {
-      console.log(values);
       res.status(200).json({
         success: true,
         following: values[0],

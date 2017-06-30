@@ -21,7 +21,6 @@ router.post('/', authen, (req, res) => {
 
     postsController.addPost(postInfo)
       .then(replys => {
-        console.log(replys);
         res.status(200).json({
           success: true,
           message: 'post success'

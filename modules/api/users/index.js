@@ -21,7 +21,7 @@ router.post('/signup', (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.log('addUSer: ' + err);
       res.status(500).send({
         status: false,
         message: 'signup error'
@@ -54,7 +54,7 @@ router.post('/signin', (req, res) => {
         success: false,
         message: 'signin error'
       });
-    })
+    });
 });
 
 router.get('/', usersController.authenMiddleware, (req, res) => {
