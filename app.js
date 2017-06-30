@@ -7,6 +7,9 @@ const app = express(),
       postRouter = require('./modules/api/posts');
       followRouter = require('./modules/api/follows')
 
+var ip = process.env.IP || "0.0.0.0";
+var port = process.env.PORT || 8888;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({ secret : 'thudo-multimedia', resave : false, saveUninitialized: true,  cookie : {} }));
@@ -20,6 +23,6 @@ app.all('/*', (req, res) => {
   })
 })
 
-app.listen('8888', (req, res) => {
+app.listen(port, ip, (req, res) => {
   console.log('app listen on port 8888');
 });
