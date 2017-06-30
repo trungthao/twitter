@@ -1,4 +1,4 @@
-const db = require('then-redis').createClient(),
+const db = require('../../utilities/redisClient').databaseClient,
   bcrypt = require('bcrypt'),
   token = require('../../utilities/token');
 saltRounds = 10;

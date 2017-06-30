@@ -1,5 +1,5 @@
-const db = require('then-redis').createClient(),
-  time = require('../../utilities/time');
+const time = require('../../utilities/time'),
+  db = require('../../utilities/redisClient').databaseClient;
 
 var addPost = (postInfo) => {
   // increment id of the post

@@ -1,4 +1,4 @@
-const db = require('then-redis').createClient();
+const db = require('../../utilities/redisClient').databaseClient;
 
 var addFollow = (followInfo) => {
   let promiseAddFollowing = db.sadd(`following:${followInfo.myUsername}`, followInfo.followUser);

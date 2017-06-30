@@ -9,7 +9,6 @@ var signToken = (userInfo) => {
 
 var decodeToken = (token) => {
   userInfo = jwt.decode(token, secretKey);
-  console.log(userInfo);
   return userInfo;
 }
 
